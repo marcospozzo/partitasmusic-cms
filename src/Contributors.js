@@ -24,7 +24,7 @@ export default function Contributors() {
     <div className="body">
       <div className="search-bar">
         <SearchBox filterText={filterText} onFilterTextChange={setFilterText} />
-        <button className="search-box">+</button>
+        <button className="input-box">+</button>
       </div>
       <ContributorsList data={data} filterText={filterText} />
     </div>
@@ -33,12 +33,11 @@ export default function Contributors() {
 
 function SearchBox({ filterText, onFilterTextChange }) {
   return (
-    <div className="search-box">
+    <div className="input-box">
       <FontAwesomeIcon className="icon" icon={faMagnifyingGlass} />
       <input
         autoFocus
         value={filterText}
-        className="input-search"
         placeholder="Search"
         onChange={(e) => onFilterTextChange(e.target.value)}
       />
