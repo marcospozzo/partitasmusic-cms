@@ -24,22 +24,23 @@ export default function Contributor() {
   return (
     <div className="contributor-edit">
       <img className="profile-picture" alt="test" src={data.picture}></img>
-      <label>Name: </label>
-      <input className="input-box input-contributor" value={data.name} />
-      <label>Sort: </label>
-      <input className="input-box input-contributor" value={data.sort} />
-      <label>Country: </label>
-      <input className="input-box input-contributor" value={data.name} />
-      <label>Bio: </label>
-      <input className="input-box input-contributor" value={data.sort} />
-      <label>Contact: </label>
-      <input className="input-box input-contributor" value={data.contact} />
-      <label>Donate: </label>
-      <input className="input-box input-contributor" value={data.donate} />
-      <label>Category: </label>
-      <input className="input-box input-contributor" value={data.category} />
-      <label>Path: </label>
-      <input className="input-box input-contributor" value={data.path} />
+      <InputRow label="Name" value={data.name} />
+      <InputRow label="Sort" value={data.sort} />
+      <InputRow label="Country" value={data.country} />
+      <InputRow label="Bio" value={data.bio} />
+      <InputRow label="Contact" value={data.contact} />
+      <InputRow label="Donate" value={data.donate} />
+      <InputRow label="Category" value={data.category} />
+      <InputRow label="Path" value={data.path} />
+    </div>
+  );
+}
+
+function InputRow({ label, value }) {
+  return (
+    <div className="input-row">
+      <label>{label}</label>
+      <input className="input-box input-contributor" value={value} />
     </div>
   );
 }

@@ -131,3 +131,8 @@ input {
 .input-contributor {
   width: 300px;
 }
+
+.input-row {
+  display: flex;
+  align-items: center;
+}
