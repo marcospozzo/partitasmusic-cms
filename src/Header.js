@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "./auth";
 
 export default function Header() {
   return (
@@ -34,5 +35,15 @@ function CenterPanel() {
 }
 
 function RightPanel() {
-  return <button className="right-panel unselected">Logout</button>;
+  const navigate = useNavigate();
+
+  async function handleClick() {
+    await logout();
+    navigate("/login");
+  }
+  return (
+    <button onClick={handleClick} className="right-panel unselected">
+      Logout
+    </button>
+  );
 }

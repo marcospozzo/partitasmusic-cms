@@ -43,11 +43,11 @@ a {
 }
 
 .unselected:hover {
-  background-color: rgb(210, 210, 210);
+  background-color: #d2d2d2;
   transition: 500ms;
 }
 
-button {
+button, .submit-button {
   border: none;
   border-width: 3em;
   border-radius: 5px;
@@ -121,18 +121,65 @@ input {
   align-items: center;
   width: 100%;
   height: 100%;
+  margin-bottom: 2em;
+  margin-top: 2em;
 }
 
 .profile-picture {
   border-radius: 50%;
-  max-width: 200px;
+  width: 200px;
+  margin-bottom: 1em;
 }
 
 .input-contributor {
-  width: 300px;
+  width: 25em;
 }
 
 .input-row {
   display: flex;
   align-items: center;
+}
+
+textarea {
+  border: none;
+  min-width: 20em;
+  min-height: 15em;
+  max-width: 30em;
+  max-height: 20em;
+  height: 6em;
+  outline: none;
+}
+
+.editable-title {
+  font-weight: bold;
+  font-size:large;
+  margin-bottom: 1em;
+}
+
+.editable-title:hover {
+  background-color: #d2d2d2;
+  transition: 500ms;
+}
+
+select {
+  border: none;
+  outline: none;
+}
+
+.submit-button {
+  background-color: #d2d2d2;
+  margin-top: 2em
+}
+
+.hidden {
+  display:none;
+}
+
+.login-form {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
