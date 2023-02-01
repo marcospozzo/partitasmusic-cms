@@ -1,12 +1,13 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3001/api/";
-
 export async function login(username, password) {
-  const response = await axios.post(API_URL + "signin", {
-    username,
-    password,
-  });
+  const response = await axios.post(
+    `${process.env.REACT_APP_API_URL}api/signin`,
+    {
+      username,
+      password,
+    }
+  );
   if (response.data.accessToken) {
     localStorage.setItem("jwt", JSON.stringify(response.data.accessToken));
   }

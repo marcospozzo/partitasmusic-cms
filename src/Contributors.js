@@ -9,7 +9,7 @@ export default function Contributors() {
   const [filterText, setFilterText] = useState("");
 
   useEffect(() => {
-    fetchApi("http://localhost:3001/api/get-contributors")
+    fetchApi(`${process.env.REACT_APP_API_URL}api/get-contributors`)
       .then((data) => {
         // console.log(data);
         setData(data);

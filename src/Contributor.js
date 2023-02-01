@@ -23,7 +23,7 @@ export default function Contributor() {
     };
     e.preventDefault();
     const response = await axios.post(
-      "http://localhost:3001/api/update-contributor",
+      `${process.env.REACT_APP_API_URL}api/update-contributor`,
       data,
       config
     );
@@ -31,7 +31,7 @@ export default function Contributor() {
   }
 
   useEffect(() => {
-    fetchApi(`http://localhost:3001/api/get-contributor/${path}`)
+    fetchApi(`${process.env.REACT_APP_API_URL}api/get-contributor/${path}`)
       .then((data) => {
         // console.log(data);
         setData(data);
@@ -109,15 +109,13 @@ function EditableTitle({ name, handleOnChange }) {
   const [isEditing, setIsEditing] = useState(false);
 
   function handleOnClick(e) {
-    console.log(name);
-    e.target.value === "" && (e.target.value = name);
+    // e.target.value === "" && (e.target.value = name);
     setIsEditing(!isEditing);
   }
 
   function handleKeyDown(event) {
     if (event.key === "Enter") {
       handleOnClick();
-      console.log(event.key);
     }
   }
 
