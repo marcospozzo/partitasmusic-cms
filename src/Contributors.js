@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import fetchApi from "./fetchApi.js";
+import { toast } from "react-toastify";
 
 export default function Contributors() {
   const [data, setData] = useState([]);
@@ -11,12 +12,12 @@ export default function Contributors() {
   useEffect(() => {
     fetchApi(`${process.env.REACT_APP_API_URL}api/get-contributors`)
       .then((data) => {
-        // console.log(data);
         setData(data);
       })
       .catch((err) => {
-        console.error("error fetching api...");
-        console.error(err.message);
+        toast.error("Error fetching API. Try again...", {
+          toastId: "error1",
+        });
       });
   }, []);
 

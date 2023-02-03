@@ -31,3 +31,18 @@ export function authHeader() {
     return {};
   }
 }
+
+export async function verifyToken() {
+  const config = {
+    headers: authHeader(),
+  };
+  try {
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}api/verifyToken`,
+      config
+    );
+    return response.status === 200;
+  } catch (error) {
+    return false;
+  }
+}

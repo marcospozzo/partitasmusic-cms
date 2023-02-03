@@ -1,18 +1,17 @@
 import { Navigate } from "react-router-dom";
-import { Buffer } from "buffer";
+import { verifyToken } from "./auth";
+import { useEffect, useState } from "react";
 
 const Protected = ({ children }) => {
-  const jwt = localStorage.getItem("jwt");
+  const [tokenIsValid, setTokenIsValid] = useState("false");
 
-  function isNotExpired(jwt) {
-    const expirationPart = jwt.split(".")[1];
-    const milliseconds = JSON.parse(
-      Buffer.from(expirationPart, "base64").toString("ascii")
-    ).exp;
-    return milliseconds * 1000 > Date.now();
-  }
+  useEffect(() => {
+    (async function () {
+      setTokenIsValid(await verifyToken());
+    })();
+  }, []);
 
-  if (jwt && isNotExpired(jwt)) {
+  if (tokenIsValid) {
     return children;
   } else {
     return <Navigate to="/login" />;

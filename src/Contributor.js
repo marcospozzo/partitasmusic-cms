@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import fetchApi from "./fetchApi.js";
 import axios from "axios";
 import { authHeader } from "./auth";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Contributor() {
@@ -21,7 +21,7 @@ export default function Contributor() {
   }
 
   async function handleSubmit(e) {
-    let config = {
+    const config = {
       headers: authHeader(),
     };
     e.preventDefault();
@@ -42,19 +42,15 @@ export default function Contributor() {
   useEffect(() => {
     fetchApi(`${process.env.REACT_APP_API_URL}api/get-contributor/${path}`)
       .then((data) => {
-        // console.log(data);
         setData(data);
       })
       .catch((err) => {
         navigate("/");
-        // console.error("error fetching api...");
-        // console.error(err.message);
       });
   }, [navigate, path]);
 
   return (
     <>
-      <ToastContainer />
       <form onSubmit={handleSubmit} className="contributor-edit">
         <EditableTitle name={data.name} handleOnChange={handleInputChange} />
         <img

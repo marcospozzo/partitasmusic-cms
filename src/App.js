@@ -5,10 +5,12 @@ import Contributor from "./Contributor.js";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Protected from "./Protected";
 import Login from "./Login.js";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <>
+      <ToastContainer />
       <Routes>
         <Route
           path="/"

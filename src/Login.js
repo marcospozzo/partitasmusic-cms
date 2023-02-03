@@ -1,7 +1,7 @@
 import { login } from "./auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export default function Login() {
       await login(credentials.username, credentials.password);
       navigate("/");
     } catch (err) {
-      return toast.error("Login failed");
+      toast.error("Login failed. Try again...");
     }
   }
 
@@ -25,27 +25,24 @@ export default function Login() {
   }
 
   return (
-    <>
-      <ToastContainer />
-      <form onSubmit={handleSubmit} className="login-form">
-        <input
-          name="username"
-          onChange={handleChange}
-          autoFocus
-          className="input-box input-contributor"
-          placeholder="email"
-        ></input>
-        <input
-          name="password"
-          type="password"
-          onChange={handleChange}
-          className="input-box input-contributor"
-          placeholder="password"
-        ></input>
-        <button type="submit" className="unselected">
-          Login
-        </button>
-      </form>
-    </>
+    <form onSubmit={handleSubmit} className="login-form">
+      <input
+        name="username"
+        onChange={handleChange}
+        autoFocus
+        className="input-box input-contributor"
+        placeholder="email"
+      ></input>
+      <input
+        name="password"
+        type="password"
+        onChange={handleChange}
+        className="input-box input-contributor"
+        placeholder="password"
+      ></input>
+      <button type="submit" className="unselected">
+        Login
+      </button>
+    </form>
   );
 }
