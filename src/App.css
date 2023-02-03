@@ -1,4 +1,4 @@
-* {
+body {
   background-color: #E9E6DE;
 }
 
@@ -54,6 +54,8 @@ button, .submit-button {
   cursor: pointer;
   transition: 200ms;
   padding: 0.5em 1em;
+  background-color: #E9E6DE;
+
 }
 
 .body {
