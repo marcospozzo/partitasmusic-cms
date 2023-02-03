@@ -57,7 +57,6 @@ export default function Contributor() {
       <ToastContainer />
       <form onSubmit={handleSubmit} className="contributor-edit">
         <EditableTitle name={data.name} handleOnChange={handleInputChange} />
-        {/* <input name="picture" value="test" type="hidden"></input> */}
         <img
           className="profile-picture"
           alt={data.name}
@@ -137,18 +136,19 @@ function EditableTitle({ name, handleOnChange }) {
 
   return (
     <>
-      <input
-        name="name"
-        onChange={handleOnChange}
-        defaultValue={name}
-        onBlur={handleOnClick}
-        onKeyDown={handleKeyDown}
-        className="input-box input-contributor"
-        type={isEditing ? "text" : "hidden"}
-        autoFocus // this line is not doing anything because the element is not being mounted on time
-        ref={(input) => input && input.focus()} // fix for autoFocus not working because of render times
-      />
-      {!isEditing && (
+      {isEditing ? (
+        <input
+          name="name"
+          onChange={handleOnChange}
+          defaultValue={name}
+          onBlur={handleOnClick}
+          onKeyDown={handleKeyDown}
+          className="input-box input-contributor"
+          type="text"
+          autoFocus
+          // ref={(input) => input && input.focus()} // fix for autoFocus not working because of render times
+        />
+      ) : (
         <button onClick={handleOnClick} className="editable-title">
           {name}
         </button>
