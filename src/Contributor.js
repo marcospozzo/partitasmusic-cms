@@ -12,6 +12,11 @@ export default function Contributor() {
   const { path } = useParams();
   const [data, setData] = useState([]);
 
+  function handleOnCancel(e) {
+    e.preventDefault();
+    navigate(0);
+  }
+
   function handleInputChange(e) {
     // e.target.value === "" && (e.target.value = data[e.target.name]); // does not quite work, but almost
     setData({
@@ -53,35 +58,40 @@ export default function Contributor() {
   return (
     <div className="body">
       <div className="contributor-edit">
-        <img
-          className="profile-picture"
-          alt={data.name}
-          src={data.picture}
-        ></img>
         <form className="contributor-form" onSubmit={handleSubmit}>
+          <img
+            className="profile-picture"
+            alt={data.name}
+            src={data.picture}
+          ></img>
           <EditableTitle
             handleOnChange={handleInputChange}
             label="Name"
+            fieldName="name"
             text={data.name}
           />
           <EditableTitle
             handleOnChange={handleInputChange}
-            label="Sort"
+            label="Sort by"
+            fieldName="sortBy"
             text={data.sortBy}
           />
           <EditableTitle
             handleOnChange={handleInputChange}
             label="Country"
+            fieldName="country"
             text={data.country}
           />
           <EditableTitle
             handleOnChange={handleInputChange}
             label="Contact"
+            fieldName="contact"
             text={data.contact}
           />
           <EditableTitle
             handleOnChange={handleInputChange}
             label="Donate"
+            fieldName="donate"
             text={data.donate}
           />
           <div className="input-row">
@@ -101,6 +111,7 @@ export default function Contributor() {
           <EditableTitle
             handleOnChange={handleInputChange}
             label="Path"
+            fieldName="path"
             text={data.path}
           />
           <div className="input-row">
@@ -113,14 +124,24 @@ export default function Contributor() {
               defaultValue={data.bio}
             ></textarea>
           </div>
-          <input type="submit" className="submit-button" value="Save"></input>
+          <div className="contributor-button-row">
+            <button type="submit" className="submit-button">
+              Save
+            </button>
+            <button
+              onClick={handleOnCancel}
+              className="unselected cancel-button"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>
   );
 }
 
-function EditableTitle({ text, label, handleOnChange }) {
+function EditableTitle({ text, label, fieldName, handleOnChange }) {
   const [isEditing, setIsEditing] = useState(false);
 
   function handleOnClick(e) {
@@ -143,7 +164,7 @@ function EditableTitle({ text, label, handleOnChange }) {
       <label>{`${label}:`}</label>
       {isEditing || text === "" ? (
         <input
-          name={label.toLowerCase()}
+          name={fieldName}
           onChange={handleOnChangeEdit}
           defaultValue={text}
           onBlur={handleOnClick}

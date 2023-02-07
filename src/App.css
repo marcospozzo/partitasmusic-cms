@@ -129,9 +129,10 @@ input {
 
 .profile-picture {
   border-radius: 50%;
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
   align-self: center;
+  margin-bottom: 1em;
 }
 
 .contributor-form {
@@ -141,7 +142,7 @@ input {
 }
 
 .input-contributor {
-  width: 25em;
+  min-width: 25em;
 }
 
 .input-row {
@@ -160,7 +161,7 @@ textarea {
 
 .editable-title {
   font-weight: bold;
-  font-size:large;
+  /* font-size:large; */
   width: fit-content;
   min-height: 2em;
   min-width: 2em;
@@ -174,6 +175,7 @@ textarea {
 .editable-row {
   display: flex;
   align-items: center;
+  height: 2em;
 }
 
 select {
@@ -183,13 +185,27 @@ select {
 
 .submit-button {
   background-color: #C0A897;
-  margin: 2em 0em;
+  margin: 1em 1em;
   padding-left: 1em;
   padding-right: 1em;
   font-weight: lighter;
-  font-size:large;
+  font-size: medium;
+
   width: 10em;
-  align-self: center;
+}
+
+.cancel-button {
+  margin: 1em 0em;
+  font-weight: lighter;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.contributor-button-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .submit-button:hover {
@@ -208,4 +224,8 @@ select {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+label {
+  width: 4.5em;
 }
