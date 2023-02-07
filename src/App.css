@@ -53,7 +53,8 @@ button, .submit-button {
   border-radius: 5px;
   cursor: pointer;
   transition: 200ms;
-  padding: 0.5em 1em;
+  padding: 0.5em;
+  margin-left: 0.5em;
   background-color: #E9E6DE;
 
 }
@@ -119,18 +120,24 @@ input {
 
 .contributor-edit {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
   width: 100%;
-  height: 100%;
   margin-bottom: 2em;
   margin-top: 2em;
 }
 
 .profile-picture {
   border-radius: 50%;
-  width: 200px;
-  margin-bottom: 1em;
+  width: 300px;
+  height: 300px;
+  align-self: center;
+}
+
+.contributor-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .input-contributor {
@@ -144,23 +151,29 @@ input {
 
 textarea {
   border: none;
-  min-width: 20em;
-  min-height: 15em;
-  max-width: 30em;
+  min-width: 25em;
+  max-width: 25em;
+  min-height: 5em;
   max-height: 20em;
-  height: 6em;
   outline: none;
 }
 
 .editable-title {
   font-weight: bold;
   font-size:large;
-  margin-bottom: 1em;
+  width: fit-content;
+  min-height: 2em;
+  min-width: 2em;
 }
 
 .editable-title:hover {
   background-color: #d2d2d2;
   transition: 500ms;
+}
+
+.editable-row {
+  display: flex;
+  align-items: center;
 }
 
 select {
@@ -169,8 +182,19 @@ select {
 }
 
 .submit-button {
-  background-color: #d2d2d2;
-  margin-top: 2em
+  background-color: #C0A897;
+  margin: 2em 0em;
+  padding-left: 1em;
+  padding-right: 1em;
+  font-weight: lighter;
+  font-size:large;
+  width: 10em;
+  align-self: center;
+}
+
+.submit-button:hover {
+  background-color: #d2b59f;
+  transition: 500ms;
 }
 
 .hidden {

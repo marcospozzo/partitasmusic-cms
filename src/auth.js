@@ -33,10 +33,10 @@ export function authHeader() {
 }
 
 export async function verifyToken() {
-  const config = {
-    headers: authHeader(),
-  };
   try {
+    const config = {
+      headers: authHeader(),
+    };
     const response = await axios.get(
       `${process.env.REACT_APP_API_URL}api/verifyToken`,
       config

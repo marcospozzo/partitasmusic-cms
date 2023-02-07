@@ -21,11 +21,11 @@ export default function Contributor() {
   }
 
   async function handleSubmit(e) {
-    const config = {
-      headers: authHeader(),
-    };
     e.preventDefault();
     try {
+      const config = {
+        headers: authHeader(),
+      };
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}api/update-contributor`,
         data,
@@ -42,6 +42,7 @@ export default function Contributor() {
   useEffect(() => {
     fetchApi(`${process.env.REACT_APP_API_URL}api/get-contributor/${path}`)
       .then((data) => {
+        data.sortBy = data.sort; // this fixes error that makes compiler think sort is a function and can't be rendered
         setData(data);
       })
       .catch((err) => {
@@ -50,74 +51,76 @@ export default function Contributor() {
   }, [navigate, path]);
 
   return (
-    <>
-      <form onSubmit={handleSubmit} className="contributor-edit">
-        <EditableTitle name={data.name} handleOnChange={handleInputChange} />
+    <div className="body">
+      <div className="contributor-edit">
         <img
           className="profile-picture"
           alt={data.name}
           src={data.picture}
         ></img>
-        <InputRow
-          handleOnChange={handleInputChange}
-          label="Sort"
-          value={data.sort}
-        />
-        <InputRow
-          handleOnChange={handleInputChange}
-          label="Country"
-          value={data.country}
-        />
-        <div className="input-row">
-          <label>Bio</label>
-          <textarea
-            name="bio"
-            onBlur={handleInputChange}
-            onChange={handleInputChange}
-            className="input-box input-contributor"
-            defaultValue={data.bio}
-          ></textarea>
-        </div>
-        <InputRow
-          handleOnChange={handleInputChange}
-          label="Contact"
-          value={data.contact}
-        />
-        <InputRow
-          handleOnChange={handleInputChange}
-          label="Donate"
-          value={data.donate}
-        />
-        <div className="input-row">
-          <label>Category</label>
-          <select
-            name="category"
-            onChange={handleInputChange}
-            className="input-box input-contributor"
-            value={data.category}
-            defaultValue=""
-          >
-            <option hidden disabled value=""></option>
-            <option value="group">group</option>
-            <option value="individual">individual</option>
-          </select>
-        </div>
-        <InputRow
-          handleOnChange={handleInputChange}
-          label="Path"
-          value={data.path}
-        />
-        <input
-          type="submit"
-          className="submit-button"
-          value="Save changes"
-        ></input>
-      </form>
-    </>
+        <form className="contributor-form" onSubmit={handleSubmit}>
+          <EditableTitle
+            handleOnChange={handleInputChange}
+            label="Name"
+            text={data.name}
+          />
+          <EditableTitle
+            handleOnChange={handleInputChange}
+            label="Sort"
+            text={data.sortBy}
+          />
+          <EditableTitle
+            handleOnChange={handleInputChange}
+            label="Country"
+            text={data.country}
+          />
+          <EditableTitle
+            handleOnChange={handleInputChange}
+            label="Contact"
+            text={data.contact}
+          />
+          <EditableTitle
+            handleOnChange={handleInputChange}
+            label="Donate"
+            text={data.donate}
+          />
+          <div className="input-row">
+            <label>Category:</label>
+            <select
+              name="category"
+              onChange={handleInputChange}
+              className="input-box input-contributor"
+              value={data.category}
+              defaultValue=""
+            >
+              <option hidden disabled value=""></option>
+              <option value="group">group</option>
+              <option value="individual">individual</option>
+            </select>
+          </div>
+          <EditableTitle
+            handleOnChange={handleInputChange}
+            label="Path"
+            text={data.path}
+          />
+          <div className="input-row">
+            <label>Bio:</label>
+            <textarea
+              name="bio"
+              onBlur={handleInputChange}
+              onChange={handleInputChange}
+              className="input-box input-contributor"
+              defaultValue={data.bio}
+            ></textarea>
+          </div>
+          <input type="submit" className="submit-button" value="Save"></input>
+        </form>
+      </div>
+    </div>
   );
 }
 
-function EditableTitle({ name, handleOnChange }) {
+function EditableTitle({ text, label, handleOnChange }) {
   const [isEditing, setIsEditing] = useState(false);
 
   function handleOnClick(e) {
@@ -130,26 +133,31 @@ function EditableTitle({ name, handleOnChange }) {
     }
   }
 
+  function handleOnChangeEdit(e) {
+    setIsEditing(true);
+    handleOnChange(e);
+  }
+
   return (
-    <>
-      {isEditing ? (
+    <div className="editable-row">
+      <label>{`${label}:`}</label>
+      {isEditing || text === "" ? (
         <input
-          name="name"
-          onChange={handleOnChange}
-          defaultValue={name}
+          name={label.toLowerCase()}
+          onChange={handleOnChangeEdit}
+          defaultValue={text}
           onBlur={handleOnClick}
           onKeyDown={handleKeyDown}
           className="input-box input-contributor"
           type="text"
-          autoFocus
-          // ref={(input) => input && input.focus()} // fix for autoFocus not working because of render times
+          autoFocus={text !== ""}
         />
       ) : (
         <button onClick={handleOnClick} className="editable-title">
-          {name}
+          {text}
         </button>
       )}
-    </>
+    </div>
   );
 }
 
