@@ -5,7 +5,7 @@ import fetchApi from "./fetchApi.js";
 import axios from "axios";
 import { authHeader } from "./auth";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Button from "@mui/material/Button";
 
 export default function Contributor() {
   const navigate = useNavigate();
@@ -125,15 +125,16 @@ export default function Contributor() {
             ></textarea>
           </div>
           <div className="contributor-button-row">
-            <button type="submit" className="submit-button">
-              Save
-            </button>
-            <button
+            <Button className="submit-button" type="submit" variant="contained">
+              SAVE
+            </Button>
+            <Button
+              style={{ marginLeft: "1em" }}
               onClick={handleOnCancel}
-              className="unselected cancel-button"
+              variant="outlined"
             >
-              Cancel
-            </button>
+              CANCEL
+            </Button>
           </div>
         </form>
       </div>

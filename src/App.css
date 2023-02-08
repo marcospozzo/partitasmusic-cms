@@ -142,21 +142,21 @@ input {
 }
 
 .input-contributor {
-  min-width: 25em;
+  width: 23em;
+}
+
+textarea {
+  border: none;
+  min-width: 23em;
+  max-width: 23em;
+  min-height: 5em;
+  max-height: 15em;
+  outline: none;
 }
 
 .input-row {
   display: flex;
   align-items: center;
-}
-
-textarea {
-  border: none;
-  min-width: 25em;
-  max-width: 25em;
-  min-height: 5em;
-  max-height: 20em;
-  outline: none;
 }
 
 .editable-title {
@@ -181,17 +181,23 @@ textarea {
 select {
   border: none;
   outline: none;
+  min-width: 25em;
 }
 
 .submit-button {
-  background-color: #C0A897;
+  background-color: #5d5959;
+  color: white;
   margin: 1em 1em;
   padding-left: 1em;
   padding-right: 1em;
-  font-weight: lighter;
+  font-weight: bold;
   font-size: medium;
-
   width: 10em;
+}
+
+.submit-button:hover {
+  background-color: #544a49;
+  transition: 500ms;
 }
 
 .cancel-button {
@@ -204,13 +210,8 @@ select {
 .contributor-button-row {
   display: flex;
   justify-content: center;
-  align-items: center;
   width: 100%;
-}
-
-.submit-button:hover {
-  background-color: #d2b59f;
-  transition: 500ms;
+  margin-top: 1em;
 }
 
 .hidden {
