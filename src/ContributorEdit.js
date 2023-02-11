@@ -100,11 +100,11 @@ export default function ContributorEdit({ path }) {
           src={data.picture}
         ></img>
         <Button
-          style={{ width: "70%", alignSelf: "center", marginBottom: "1em" }}
+          style={{ width: "45%", alignSelf: "center", marginBottom: "1em" }}
           variant="contained"
           component="label"
         >
-          Change profile picture
+          Select picture
           <input
             name="picture"
             onChange={handleImageChange}
