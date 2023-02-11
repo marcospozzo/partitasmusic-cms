@@ -13,6 +13,7 @@ export default function Login() {
       await login(credentials.username, credentials.password);
       navigate("/");
     } catch (err) {
+      console.error(err);
       toast.error("Login failed. Try again...");
     }
   }

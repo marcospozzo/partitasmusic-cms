@@ -43,6 +43,7 @@ export async function verifyToken() {
     );
     return response.status === 200;
   } catch (error) {
+    console.error("Invalid token. Log in again.");
     return false;
   }
 }

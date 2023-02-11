@@ -122,7 +122,7 @@ input {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-evenly;
-  width: 100%;
+  width: 50%;
   margin-bottom: 2em;
   margin-top: 2em;
 }
@@ -161,10 +161,8 @@ textarea {
 
 .editable-title {
   font-weight: bold;
-  /* font-size:large; */
-  width: fit-content;
-  min-height: 2em;
-  min-width: 2em;
+  width: 25em;
+  text-align: left;
 }
 
 .editable-title:hover {
@@ -209,7 +207,7 @@ select {
 
 .contributor-button-row {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   width: 100%;
   margin-top: 1em;
 }
@@ -228,5 +226,33 @@ select {
 }
 
 label {
-  width: 4.5em;
+  width: 5.5em;
+}
+
+.contributor {
+  display: flex;
+}
+
+.pieces {
+  width: 50%;
+  margin: 2em 0em;
+  border-left: 1px solid rgb(202, 200, 200);
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.textarea-piece {
+  min-width: 30em;
+  max-width: 30em;
+}
+
+.piece {
+  margin: 1em 6em;
+  border-bottom: 1px solid rgb(202, 200, 200);
+}
+
+.piece:last-child {
+  border-bottom: 0;
 }

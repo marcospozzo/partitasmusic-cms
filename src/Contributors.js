@@ -15,6 +15,7 @@ export default function Contributors() {
         setData(data);
       })
       .catch((err) => {
+        console.error(err);
         toast.error("Error fetching API. Try again...", {
           toastId: "error1",
         });
