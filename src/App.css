@@ -256,3 +256,11 @@ label {
 .piece:last-child {
   border-bottom: 0;
 }
+
+.links {
+    align-self: center;
+    height: fit-content;
+    padding: 0.5em 0.5em;
+    margin-bottom: 1em;
+    border-radius: 5px;
+}

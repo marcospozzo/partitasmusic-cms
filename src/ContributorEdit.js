@@ -93,6 +93,14 @@ export default function ContributorEdit({ path }) {
   return (
     <div className="contributor-edit">
       <form className="contributor-form" onSubmit={handleSubmit}>
+        <a
+          href={`${process.env.REACT_APP_API_URL}music-catalog/${path}`}
+          className="links unselected"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Open in Partitas Music
+        </a>
         <img
           id="profile-picture"
           className="profile-picture"
@@ -110,7 +118,6 @@ export default function ContributorEdit({ path }) {
             onChange={handleImageChange}
             hidden
             accept="image/*"
-            multiple
             type="file"
           />
         </Button>
