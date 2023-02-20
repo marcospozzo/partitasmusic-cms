@@ -15,7 +15,7 @@ export default function ContributorEdit({ path }) {
   function handleImageChange(e) {
     const newPicture = e.target.files[0];
     if (newPicture) {
-      // display the about-to-upload image instead of the previous one
+      // display the selected image instead of the previous one
       const objectUrl = URL.createObjectURL(newPicture);
       document.getElementById("profile-picture").src = objectUrl;
 
@@ -50,15 +50,11 @@ export default function ContributorEdit({ path }) {
       formData.append("contact", data.contact);
       formData.append("donate", data.donate);
       formData.append("category", data.category);
-      formData.append("path", data.path);
       formData.append("bio", data.bio);
-      if (newPicture) {
-        formData.append("image", newPicture);
-        formData.append("imageName", newPicture.name);
-      }
+      newPicture && formData.append("image", newPicture);
 
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}api/update-contributor/${path}`,
+        `${process.env.REACT_APP_API_URL}api/update-contributor/${data.path}`,
         formData,
         config
       );
@@ -108,7 +104,7 @@ export default function ContributorEdit({ path }) {
           src={data.picture}
         ></img>
         <Button
-          style={{ width: "45%", alignSelf: "center", marginBottom: "1em" }}
+          style={{ width: "40%", alignSelf: "center", marginBottom: "1em" }}
           variant="contained"
           component="label"
         >
@@ -165,12 +161,6 @@ export default function ContributorEdit({ path }) {
             <option value="individual">individual</option>
           </select>
         </div>
-        <EditableTitle
-          handleOnChange={handleInputChange}
-          label="Path"
-          fieldName="path"
-          text={data.path}
-        />
         <div className="input-row">
           <label>Bio:</label>
           <textarea

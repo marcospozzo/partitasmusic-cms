@@ -142,13 +142,13 @@ input {
 }
 
 .input-contributor {
-  width: 23em;
+  width: 30em;
 }
 
 textarea {
   border: none;
-  min-width: 23em;
-  max-width: 23em;
+  min-width: 30em;
+  max-width: 30em;
   min-height: 5em;
   max-height: 15em;
   outline: none;
@@ -161,7 +161,7 @@ textarea {
 
 .editable-title {
   font-weight: bold;
-  width: 25em;
+  width: 32em;
   text-align: left;
 }
 
@@ -179,7 +179,7 @@ textarea {
 select {
   border: none;
   outline: none;
-  min-width: 25em;
+  min-width: 32em;
 }
 
 .submit-button {
@@ -243,10 +243,10 @@ label {
   justify-content: center;
 }
 
-.textarea-piece {
+/* .textarea-piece, .input-piece {
   min-width: 30em;
   max-width: 30em;
-}
+} */
 
 .piece {
   margin: 1em 6em;
@@ -263,4 +263,8 @@ label {
     padding: 0.5em 0.5em;
     margin-bottom: 1em;
     border-radius: 5px;
+}
+
+.Button.file-selected {
+  border: #03891e solid 2px;
 }

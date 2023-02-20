@@ -23,6 +23,7 @@ export default function Pieces({ path }) {
       {data.map((piece) => {
         return <Piece key={piece._id} piece={piece} />;
       })}
+      <Piece />
     </div>
   );
 }

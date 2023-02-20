@@ -5,7 +5,9 @@ import axios from "axios";
 import { authHeader } from "./auth";
 import { toast } from "react-toastify";
 
-export default function Piece({ piece }) {
+export default function Piece({
+  piece = { title: "", description: "", isNewPiece: true },
+}) {
   const [data, setData] = useState(piece);
   const [audioFile, setAudioFile] = useState(null);
   const [scoreFile, setScoreFile] = useState(null);
@@ -34,20 +36,23 @@ export default function Piece({ piece }) {
       config.headers["content-type"] = "multipart/form-data";
 
       const formData = new FormData();
-      formData.append("id", data._id);
+      !data.isNewPiece && formData.append("id", data._id);
       formData.append("title", data.title);
       formData.append("description", data.description);
       audioFile && formData.append("audio", audioFile);
-      audioFile && formData.append("score", scoreFile);
+      scoreFile && formData.append("score", scoreFile);
+
+      const endpoint = data.isNewPiece
+        ? "create-contribution"
+        : "update-contribution";
 
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}api/update-contribution`,
+        `${process.env.REACT_APP_API_URL}api/${endpoint}`,
         formData,
         config
       );
 
       // navigate(newUrl, { replace: true });
-
       response.data === "OK"
         ? toast.success("Changes saved")
         : toast.error("Couldn't save changes");
@@ -61,6 +66,7 @@ export default function Piece({ piece }) {
     <div>
       <form className="piece" onSubmit={handleSubmit}>
         <EditableTitle
+          className="input-piece"
           text={data.title}
           label="Title"
           fieldName="title"
@@ -77,10 +83,11 @@ export default function Piece({ piece }) {
         </div>
         <div className="contributor-button-row">
           <Button
+            className={audioFile && "Button file-selected"}
             style={{ marginBottom: "1em", width: "30%" }}
             component="label"
           >
-            Update audio file
+            {data.isNewPiece ? "Select audio file" : "Update audio file"}
             <input
               hidden
               onChange={handleAudioChange}
@@ -89,10 +96,11 @@ export default function Piece({ piece }) {
             />
           </Button>
           <Button
+            className={scoreFile && "Button file-selected"}
             style={{ marginBottom: "1em", width: "30%" }}
             component="label"
           >
-            Update score file
+            {data.isNewPiece ? "Select score file" : "Update score file"}
             <input
               hidden
               onChange={handleScoreChange}
@@ -105,7 +113,7 @@ export default function Piece({ piece }) {
             style={{ marginBottom: "1em", width: "30%" }}
             variant="contained"
           >
-            Save Piece
+            {data.isNewPiece ? "Create piece" : "Save piece"}
           </Button>
         </div>
       </form>
