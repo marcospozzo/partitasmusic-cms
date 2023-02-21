@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function EditableTitle({
-  text,
+  text = "",
   label,
   fieldName,
   handleOnChange,

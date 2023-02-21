@@ -2,6 +2,7 @@ import "./App.css";
 import Header from "./Header.js";
 import Contributors from "./Contributors.js";
 import Contributor from "./Contributor.js";
+import ContributorEdit from "./ContributorEdit";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Protected from "./Protected";
 import Login from "./Login.js";
@@ -23,6 +24,15 @@ function App() {
           }
         />
         <Route path="/login" element={<Login />} />
+        <Route
+          path="/new-contributor"
+          element={
+            <Protected>
+              <Header />
+              <ContributorEdit />
+            </Protected>
+          }
+        />
         <Route
           path="/contributors/:path"
           element={

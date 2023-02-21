@@ -5,11 +5,17 @@ import { logout } from "./auth";
 
 export default function Header() {
   return (
-    <Link to="/" className="header">
-      <img className="logo" alt="partitas music logo" src="/logo-pm.png"></img>
+    <div className="header">
+      <Link to="/">
+        <img
+          className="logo"
+          alt="partitas music logo"
+          src="/logo-pm.png"
+        ></img>
+      </Link>
       <CenterPanel />
       <RightPanel />
-    </Link>
+    </div>
   );
 }
 
@@ -25,10 +31,10 @@ function CenterPanel() {
         Contributors
       </button>
       <button
-        className={activeView === "Pieces" ? "selected" : "unselected"}
-        onClick={() => setActiveView("Pieces")}
+        className={activeView === "Users" ? "selected" : "unselected"}
+        onClick={() => setActiveView("Users")}
       >
-        Pieces
+        Users
       </button>
     </div>
   );

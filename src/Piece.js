@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export default function Piece({
-  piece = { title: "", description: "", isNewPiece: true },
+  piece = { title: "", description: "" },
   path,
 }) {
   const navigate = useNavigate();
@@ -15,6 +15,7 @@ export default function Piece({
   const [audioFile, setAudioFile] = useState(null);
   const [scoreFile, setScoreFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const isNewPiece = piece.title === "" && piece.description === "";
 
   function handleAudioChange(e) {
     setAudioFile(e.target.files[0]);
@@ -41,13 +42,13 @@ export default function Piece({
       config.headers["content-type"] = "multipart/form-data";
 
       const formData = new FormData();
-      !data.isNewPiece && formData.append("id", data._id);
+      !isNewPiece && formData.append("id", data._id);
       formData.append("title", data.title);
       formData.append("description", data.description);
       audioFile && formData.append("audio", audioFile);
       scoreFile && formData.append("score", scoreFile);
 
-      const endpoint = data.isNewPiece
+      const endpoint = isNewPiece
         ? `create-contribution/${path}`
         : "update-contribution";
 
@@ -59,14 +60,15 @@ export default function Piece({
 
       setUploading(false);
 
-      response.data.success
-        ? toast.success(response.data.success)
-        : toast.error("Couldn't save changes");
-
-      data.isNewPiece &&
-        setTimeout(() => {
-          navigate(0);
-        }, 1000);
+      if (response.data.success) {
+        toast.success(response.data.success);
+        isNewPiece &&
+          setTimeout(() => {
+            navigate(0);
+          }, 1000);
+      } else {
+        toast.warn("Unknown response");
+      }
     } catch (error) {
       setUploading(false);
       console.error(error);
@@ -99,7 +101,7 @@ export default function Piece({
             style={{ marginBottom: "1em", width: "30%" }}
             component="label"
           >
-            {data.isNewPiece ? "Select audio file" : "Update audio file"}
+            {isNewPiece ? "Select audio file" : "Update audio file"}
             <input
               hidden
               onChange={handleAudioChange}
@@ -112,7 +114,7 @@ export default function Piece({
             style={{ marginBottom: "1em", width: "30%" }}
             component="label"
           >
-            {data.isNewPiece ? "Select score file" : "Update score file"}
+            {isNewPiece ? "Select score file" : "Update score file"}
             <input
               hidden
               onChange={handleScoreChange}
@@ -125,9 +127,9 @@ export default function Piece({
             style={{ marginBottom: "1em", width: "30%" }}
             variant="contained"
           >
-            {uploading && data.isNewPiece
+            {uploading
               ? "Uploading..."
-              : data.isNewPiece
+              : isNewPiece
               ? "Create piece"
               : "Save piece"}
           </Button>

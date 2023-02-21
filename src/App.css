@@ -17,7 +17,7 @@ a {
 }
 
 .logo {
-  height: 60%;
+  height: 2.5em;
   padding: inherit;
   margin-left: 2em;
 }
@@ -267,4 +267,12 @@ label {
 
 .Button.file-selected {
   border: #03891e solid 2px;
+}
+
+.plus-button {
+  cursor: pointer;
+}
+
+.new-contributor-edit {
+  width: 100%;
 }

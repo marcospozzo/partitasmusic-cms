@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import fetchApi from "./fetchApi.js";
 import { toast } from "react-toastify";
@@ -26,7 +26,7 @@ export default function Contributors() {
     <div className="body">
       <div className="search-bar">
         <SearchBox filterText={filterText} onFilterTextChange={setFilterText} />
-        <button className="input-box">+</button>
+        <PlusButton />
       </div>
       <ContributorsList data={data} filterText={filterText} />
     </div>
@@ -44,6 +44,18 @@ function SearchBox({ filterText, onFilterTextChange }) {
         onChange={(e) => onFilterTextChange(e.target.value)}
       />
     </div>
+  );
+}
+
+function PlusButton() {
+  return (
+    <Link to={`/new-contributor`} className="input-box plus-button">
+      <FontAwesomeIcon
+        style={{ marginRight: "0" }}
+        className="icon"
+        icon={faPlus}
+      />
+    </Link>
   );
 }
 

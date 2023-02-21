@@ -7,10 +7,11 @@ import { toast } from "react-toastify";
 import Button from "@mui/material/Button";
 import EditableTitle from "./EditableTitle";
 
-export default function ContributorEdit({ path }) {
+export default function ContributorEdit({ path = "" }) {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [newPicture, setNewPicture] = useState(null);
+  const isNewContributor = path === "";
 
   function handleImageChange(e) {
     const newPicture = e.target.files[0];
@@ -25,7 +26,7 @@ export default function ContributorEdit({ path }) {
 
   function handleOnCancel(e) {
     e.preventDefault();
-    navigate(0);
+    isNewContributor ? navigate("/") : navigate(0);
   }
 
   function handleInputChange(e) {
@@ -37,6 +38,7 @@ export default function ContributorEdit({ path }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
     try {
       let config = {
         headers: authHeader(),
@@ -47,61 +49,88 @@ export default function ContributorEdit({ path }) {
       formData.append("name", data.name);
       formData.append("sortBy", data.sortBy);
       formData.append("country", data.country);
-      formData.append("contact", data.contact);
-      formData.append("donate", data.donate);
+      formData.append("contact", data.contact || "");
+      formData.append("donate", data.donate || "");
       formData.append("category", data.category);
-      formData.append("bio", data.bio);
+      formData.append("bio", data.bio || "");
+
+      const path =
+        isNewContributor && data.name
+          ? data.name
+              .trim()
+              .replace(/\s+/g, "-")
+              .replace(/-+/g, "-")
+              .toLowerCase()
+          : data.path;
+      formData.append("path", path);
+      formData.append("type", data.type);
       newPicture && formData.append("image", newPicture);
 
+      const endpoint = isNewContributor
+        ? "create-contributor"
+        : "update-contributor";
+
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}api/update-contributor/${data.path}`,
+        `${process.env.REACT_APP_API_URL}api/${endpoint}`,
         formData,
         config
       );
 
-      // change current url to the one set on path field
-      const currentUrl = window.location.pathname;
-      const parts = currentUrl.split("/");
-      parts[parts.length - 1] = data.path;
-      const newUrl = parts.join("/");
-      navigate(newUrl, { replace: true });
-
-      response.data === "OK"
-        ? toast.success("Changes saved")
-        : toast.error("Couldn't save changes");
+      if (response.data.success) {
+        toast.success(response.data.success);
+        isNewContributor &&
+          setTimeout(() => {
+            navigate(`/contributors/${path}`);
+          }, 1000);
+      } else {
+        toast.warn("Unknown response");
+      }
     } catch (error) {
       console.error(error);
-      toast.error("Couldn't save changes");
+      toast.error(error.response.data.error);
     }
   }
 
   useEffect(() => {
-    fetchApi(`${process.env.REACT_APP_API_URL}api/get-contributor/${path}`)
-      .then((data) => {
-        data.sortBy = data.sort; // this fixes error that makes compiler think sort is a function and can't be rendered
-        setData(data);
-      })
-      .catch((err) => {
-        navigate("/");
-      });
-  }, [navigate, path]);
+    !isNewContributor && // if is not a new contributor, fetch data
+      fetchApi(`${process.env.REACT_APP_API_URL}api/get-contributor/${path}`)
+        .then((data) => {
+          data.sortBy = data.sort; // this fixes error that makes compiler think sort is a function and can't be rendered
+          setData(data);
+        })
+        .catch((err) => {
+          navigate("/");
+        });
+  }, [isNewContributor, navigate, path]);
 
   return (
-    <div className="contributor-edit">
+    <div
+      className={
+        isNewContributor
+          ? "contributor-edit new-contributor-edit"
+          : "contributor-edit"
+      }
+    >
       <form className="contributor-form" onSubmit={handleSubmit}>
-        <a
-          href={`${process.env.REACT_APP_API_URL}music-catalog/${path}`}
-          className="links unselected"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Open in Partitas Music
-        </a>
+        {!isNewContributor && (
+          <a
+            href={`${process.env.REACT_APP_API_URL}music-catalog/${path}`}
+            className="links unselected"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open in Partitas Music
+          </a>
+        )}
         <img
           id="profile-picture"
           className="profile-picture"
           alt={data.name}
-          src={data.picture}
+          src={
+            isNewContributor
+              ? "/Profile_avatar_placeholder_large.png"
+              : data.picture
+          }
         ></img>
         <Button
           style={{ width: "40%", alignSelf: "center", marginBottom: "1em" }}
@@ -162,6 +191,20 @@ export default function ContributorEdit({ path }) {
           </select>
         </div>
         <div className="input-row">
+          <label>Type:</label>
+          <select
+            name="type"
+            onChange={handleInputChange}
+            className="input-box input-contributor"
+            value={data.type}
+            defaultValue=""
+          >
+            <option hidden disabled value=""></option>
+            <option value="not-featured">not-featured</option>
+            <option value="featured">featured</option>
+          </select>
+        </div>
+        <div className="input-row">
           <label>Bio:</label>
           <textarea
             name="bio"
@@ -177,7 +220,7 @@ export default function ContributorEdit({ path }) {
             type="submit"
             variant="contained"
           >
-            Save changes
+            {isNewContributor ? "Create contributor" : "Save changes"}
           </Button>
           <Button
             style={{ width: "30%" }}
