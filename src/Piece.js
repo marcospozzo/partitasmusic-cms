@@ -4,13 +4,17 @@ import { useState } from "react";
 import axios from "axios";
 import { authHeader } from "./auth";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function Piece({
   piece = { title: "", description: "", isNewPiece: true },
+  path,
 }) {
+  const navigate = useNavigate();
   const [data, setData] = useState(piece);
   const [audioFile, setAudioFile] = useState(null);
   const [scoreFile, setScoreFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   function handleAudioChange(e) {
     setAudioFile(e.target.files[0]);
@@ -29,6 +33,7 @@ export default function Piece({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUploading(true);
     try {
       let config = {
         headers: authHeader(),
@@ -43,7 +48,7 @@ export default function Piece({
       scoreFile && formData.append("score", scoreFile);
 
       const endpoint = data.isNewPiece
-        ? "create-contribution"
+        ? `create-contribution/${path}`
         : "update-contribution";
 
       const response = await axios.post(
@@ -52,13 +57,20 @@ export default function Piece({
         config
       );
 
-      // navigate(newUrl, { replace: true });
-      response.data === "OK"
-        ? toast.success("Changes saved")
+      setUploading(false);
+
+      response.data.success
+        ? toast.success(response.data.success)
         : toast.error("Couldn't save changes");
+
+      data.isNewPiece &&
+        setTimeout(() => {
+          navigate(0);
+        }, 1000);
     } catch (error) {
+      setUploading(false);
       console.error(error);
-      toast.error("Couldn't save changes");
+      toast.error(error.response.data.error);
     }
   };
 
@@ -113,7 +125,11 @@ export default function Piece({
             style={{ marginBottom: "1em", width: "30%" }}
             variant="contained"
           >
-            {data.isNewPiece ? "Create piece" : "Save piece"}
+            {uploading && data.isNewPiece
+              ? "Uploading..."
+              : data.isNewPiece
+              ? "Create piece"
+              : "Save piece"}
           </Button>
         </div>
       </form>
