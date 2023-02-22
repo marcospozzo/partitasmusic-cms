@@ -1,8 +1,10 @@
 # Partitas Music CMS
 
-This CMS serves the purpose of creating and modifying the content of [Partitas Music](https://partitasmusic.com) website in a user-friendly way, without the need of manually editing the database.
+This project serves the purpose of creating and modifying content in [Partitas Music](https://partitasmusic.com) website in a user-friendly way, without the need of manually editing the database.
 
-![alt text]()
+![home view](https://raw.githubusercontent.com/marcospozzo/partitasmusic-cms/develop/public/Screenshot1.png)
+
+![edit view](https://raw.githubusercontent.com/marcospozzo/partitasmusic-cms/develop/public/Screenshot2.png)
 
 ## Available Scripts
 
