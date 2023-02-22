@@ -290,7 +290,7 @@ label {
   }
 
   body::before {
-    content: "Sorry, this website is not available for screens smaller than 1000px.";
+    content: "Sorry, this website is not available on small screens.";
     display: block;
     text-align: center;
     padding: 20px;
