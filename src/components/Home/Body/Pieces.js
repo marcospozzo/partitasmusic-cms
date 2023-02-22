@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Piece from "./Piece";
 import { useState, useEffect } from "react";
-import fetchApi from "./fetchApi.js";
+import fetchApi from "../../../utils/fetchApi";
 
 export default function Pieces({ path }) {
   const navigate = useNavigate();

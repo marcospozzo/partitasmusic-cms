@@ -1,11 +1,11 @@
 import "./App.css";
-import Header from "./Header.js";
-import Contributors from "./Contributors.js";
-import Contributor from "./Contributor.js";
-import ContributorEdit from "./ContributorEdit";
+import Header from "./components/Home/Header/Header";
+import Contributors from "./components/Home/Body/Contributors";
+import Contributor from "./components/Home/Body/Contributor";
+import ContributorEdit from "./components/Home/Body/ContributorEdit";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Protected from "./Protected";
-import Login from "./Login.js";
+import Protected from "./components/Protected";
+import Login from "./components/Login/Login";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

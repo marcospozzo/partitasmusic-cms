@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { logout } from "./auth";
+import { logout } from "../../../utils/auth";
 
 export default function Header() {
   return (

@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { verifyToken } from "./auth";
+import { verifyToken } from "../utils/auth";
 import { useEffect, useState } from "react";
 
 const Protected = ({ children }) => {

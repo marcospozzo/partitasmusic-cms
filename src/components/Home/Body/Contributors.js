@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import fetchApi from "./fetchApi.js";
+import fetchApi from "../../../utils/fetchApi.js";
 import { toast } from "react-toastify";
 
 export default function Contributors() {

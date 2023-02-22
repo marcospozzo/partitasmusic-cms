@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import EditableTitle from "./EditableTitle";
 import { useState } from "react";
 import axios from "axios";
-import { authHeader } from "./auth";
+import { authHeader } from "../../../utils/auth";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 

@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import fetchApi from "./fetchApi.js";
+import fetchApi from "../../../utils/fetchApi.js";
 import axios from "axios";
-import { authHeader } from "./auth";
+import { authHeader } from "../../../utils/auth";
 import { toast } from "react-toastify";
 import Button from "@mui/material/Button";
 import EditableTitle from "./EditableTitle";
@@ -69,7 +69,7 @@ export default function Contributor({ path = "" }) {
       ? "create-contributor"
       : "update-contributor";
 
-    const promise = await axios
+    const promise = axios
       .post(`${process.env.REACT_APP_API_URL}api/${endpoint}`, formData, config)
       .then((response) => {
         isNewContributor &&
