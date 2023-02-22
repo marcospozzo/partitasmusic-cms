@@ -14,7 +14,6 @@ export default function Piece({
   const [data, setData] = useState(piece);
   const [audioFile, setAudioFile] = useState(null);
   const [scoreFile, setScoreFile] = useState(null);
-  const [uploading, setUploading] = useState(false);
   const isNewPiece = piece.title === "" && piece.description === "";
 
   function handleAudioChange(e) {
@@ -34,46 +33,49 @@ export default function Piece({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setUploading(true);
-    try {
-      let config = {
-        headers: authHeader(),
-      };
-      config.headers["content-type"] = "multipart/form-data";
+    let config = {
+      headers: authHeader(),
+    };
+    config.headers["content-type"] = "multipart/form-data";
 
-      const formData = new FormData();
-      !isNewPiece && formData.append("id", data._id);
-      formData.append("title", data.title);
-      formData.append("description", data.description);
-      audioFile && formData.append("audio", audioFile);
-      scoreFile && formData.append("score", scoreFile);
+    const formData = new FormData();
+    !isNewPiece && formData.append("id", data._id);
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    audioFile && formData.append("audio", audioFile);
+    scoreFile && formData.append("score", scoreFile);
 
-      const endpoint = isNewPiece
-        ? `create-contribution/${path}`
-        : "update-contribution";
+    const endpoint = isNewPiece
+      ? `create-contribution/${path}`
+      : "update-contribution";
 
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}api/${endpoint}`,
-        formData,
-        config
-      );
-
-      setUploading(false);
-
-      if (response.data.success) {
-        toast.success(response.data.success);
+    const promise = axios
+      .post(`${process.env.REACT_APP_API_URL}api/${endpoint}`, formData, config)
+      .then((response) => {
         isNewPiece &&
           setTimeout(() => {
             navigate(0);
           }, 1000);
-      } else {
-        toast.warn("Unknown response");
-      }
-    } catch (error) {
-      setUploading(false);
-      console.error(error);
-      toast.error(error.response.data.error);
-    }
+        return response.data;
+      })
+      .catch((error) => {
+        console.error(error);
+        throw error;
+      });
+
+    toast.promise(promise, {
+      pending: "Loading...",
+      success: {
+        render({ data }) {
+          return data.success;
+        },
+      },
+      error: {
+        render({ data }) {
+          return data.response.data.error;
+        },
+      },
+    });
   };
 
   return (
@@ -127,11 +129,7 @@ export default function Piece({
             style={{ marginBottom: "1em", width: "30%" }}
             variant="contained"
           >
-            {uploading
-              ? "Uploading..."
-              : isNewPiece
-              ? "Create piece"
-              : "Save piece"}
+            {isNewPiece ? "Create piece" : "Save piece"}
           </Button>
         </div>
       </form>

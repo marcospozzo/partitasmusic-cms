@@ -29,7 +29,7 @@ function App() {
           element={
             <Protected>
               <Header />
-              <ContributorEdit />
+              <Contributor />
             </Protected>
           }
         />
@@ -38,7 +38,7 @@ function App() {
           element={
             <Protected>
               <Header />
-              <Contributor />
+              <ContributorEdit />
             </Protected>
           }
         />
