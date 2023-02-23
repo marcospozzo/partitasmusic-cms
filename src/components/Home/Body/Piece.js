@@ -27,7 +27,7 @@ export default function Piece({
   function handleInputChange(e) {
     setData({
       ...data,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value.trim(),
     });
   }
 
