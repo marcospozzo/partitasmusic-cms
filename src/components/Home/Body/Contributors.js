@@ -2,20 +2,21 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import fetchApi from "../../../utils/fetchApi.js";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 export default function Contributors() {
   const [data, setData] = useState([]);
   const [filterText, setFilterText] = useState("");
 
   useEffect(() => {
-    fetchApi(`${process.env.REACT_APP_API_URL}api/get-contributors`)
-      .then((data) => {
-        setData(data);
+    axios
+      .get(`${process.env.REACT_APP_API_URL}api/get-contributors`)
+      .then((response) => {
+        setData(response.data);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((error) => {
+        console.error(error);
         toast.error("Error fetching API. Try again...", {
           toastId: "error1",
         });

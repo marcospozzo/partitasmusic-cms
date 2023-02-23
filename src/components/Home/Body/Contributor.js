@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import fetchApi from "../../../utils/fetchApi.js";
+import { convertToSlug } from "../../../utils/utils.js";
 import axios from "axios";
 import { authHeader } from "../../../utils/auth";
 import { toast } from "react-toastify";
@@ -54,13 +54,7 @@ export default function Contributor({ path = "" }) {
     formData.append("bio", data.bio || "");
 
     const path =
-      isNewContributor && data.name
-        ? data.name
-            .trim()
-            .replace(/\s+/g, "-")
-            .replace(/-+/g, "-")
-            .toLowerCase()
-        : data.path;
+      isNewContributor && data.name ? convertToSlug(data.name) : data.path;
     formData.append("path", path);
     formData.append("type", data.type);
     newPicture && formData.append("image", newPicture);
@@ -100,12 +94,14 @@ export default function Contributor({ path = "" }) {
 
   useEffect(() => {
     !isNewContributor && // if is not a new contributor, fetch data
-      fetchApi(`${process.env.REACT_APP_API_URL}api/get-contributor/${path}`)
-        .then((data) => {
-          data.sortBy = data.sort; // this fixes error that makes compiler think sort is a function and can't be rendered
-          setData(data);
+      axios
+        .get(`${process.env.REACT_APP_API_URL}api/get-contributor/${path}`)
+        .then((response) => {
+          response.data.sortBy = response.data.sort; // this fixes error that makes compiler think sort is a function and can't be rendered
+          setData(response.data);
         })
-        .catch((err) => {
+        .catch((error) => {
+          console.error(error);
           navigate("/");
         });
   }, [isNewContributor, navigate, path]);
@@ -227,7 +223,7 @@ export default function Contributor({ path = "" }) {
             type="submit"
             variant="contained"
           >
-            {isNewContributor ? "Create contributor" : "Save changes"}
+            {isNewContributor ? "Create contributor" : "Update changes"}
           </Button>
           <Button
             style={{ width: "30%" }}

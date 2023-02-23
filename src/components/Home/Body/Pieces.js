@@ -1,18 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import Piece from "./Piece";
 import { useState, useEffect } from "react";
-import fetchApi from "../../../utils/fetchApi";
+import axios from "axios";
 
 export default function Pieces({ path }) {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetchApi(`${process.env.REACT_APP_API_URL}api/get-contributions/${path}`)
-      .then((data) => {
-        setData(data);
+    axios
+      .get(`${process.env.REACT_APP_API_URL}api/get-contributions/${path}`)
+      .then((response) => {
+        setData(response.data);
       })
-      .catch((err) => {
+      .catch((error) => {
+        console.error(error);
         navigate("/");
       });
   }, [navigate, path]);

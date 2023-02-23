@@ -103,7 +103,7 @@ export default function Piece({
             style={{ marginBottom: "1em", width: "30%" }}
             component="label"
           >
-            {isNewPiece ? "Select audio file" : "Update audio file"}
+            Select audio file
             <input
               hidden
               onChange={handleAudioChange}
@@ -116,7 +116,7 @@ export default function Piece({
             style={{ marginBottom: "1em", width: "30%" }}
             component="label"
           >
-            {isNewPiece ? "Select score file" : "Update score file"}
+            Select score file
             <input
               hidden
               onChange={handleScoreChange}
@@ -129,7 +129,7 @@ export default function Piece({
             style={{ marginBottom: "1em", width: "30%" }}
             variant="contained"
           >
-            {isNewPiece ? "Create piece" : "Save piece"}
+            {isNewPiece ? "Create piece" : "Update piece"}
           </Button>
         </div>
       </form>
