@@ -3,15 +3,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { axiosInstance } from "../../../utils/utils";
 
 export default function Contributors() {
   const [data, setData] = useState([]);
   const [filterText, setFilterText] = useState("");
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}api/get-contributors`)
+    axiosInstance
+      .get("/get-contributors")
       .then((response) => {
         setData(response.data);
       })

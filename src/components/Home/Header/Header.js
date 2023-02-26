@@ -3,22 +3,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../../utils/auth";
 
-export default function Header() {
-  return (
-    <div className="header">
-      <Link to="/">
-        <img
-          className="logo"
-          alt="partitas music logo"
-          src="/logo-pm.png"
-        ></img>
-      </Link>
-      <CenterPanel />
-      <RightPanel />
-    </div>
-  );
-}
-
 function CenterPanel() {
   const [activeView, setActiveView] = useState("Contributors");
 
@@ -51,5 +35,21 @@ function RightPanel() {
     <button onClick={handleClick} className="right-panel unselected">
       Logout
     </button>
+  );
+}
+
+export default function Header() {
+  return (
+    <div className="header">
+      <Link to="/">
+        <img
+          className="logo"
+          alt="partitas music logo"
+          src="/logo-pm.png"
+        ></img>
+      </Link>
+      <CenterPanel />
+      <RightPanel />
+    </div>
   );
 }

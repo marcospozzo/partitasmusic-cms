@@ -1,20 +1,19 @@
 import Button from "@mui/material/Button";
 import EditableTitle from "./EditableTitle";
 import { useState } from "react";
-import axios from "axios";
-import { authHeader } from "../../../utils/auth";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { handlePieceSubmit } from "../../../utils/utils";
 
 export default function Piece({
   piece = { title: "", description: "" },
   path,
 }) {
-  const navigate = useNavigate();
   const [data, setData] = useState(piece);
   const [audioFile, setAudioFile] = useState(null);
   const [scoreFile, setScoreFile] = useState(null);
   const isNewPiece = piece.title === "" && piece.description === "";
+  const navigate = useNavigate();
 
   function handleAudioChange(e) {
     setAudioFile(e.target.files[0]);
@@ -32,41 +31,23 @@ export default function Piece({
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    let config = {
-      headers: authHeader(),
-    };
-    config.headers["content-type"] = "multipart/form-data";
-
-    const formData = new FormData();
-    !isNewPiece && formData.append("id", data._id);
-    formData.append("title", data.title);
-    formData.append("description", data.description);
-    audioFile && formData.append("audio", audioFile);
-    scoreFile && formData.append("score", scoreFile);
-
-    const endpoint = isNewPiece
-      ? `create-contribution/${path}`
-      : "update-contribution";
-
-    const promise = axios
-      .post(`${process.env.REACT_APP_API_URL}api/${endpoint}`, formData, config)
-      .then((response) => {
-        isNewPiece &&
-          setTimeout(() => {
-            navigate(0);
-          }, 1000);
-        return response.data;
-      })
-      .catch((error) => {
-        console.error(error);
-        throw error;
-      });
+    const promise = handlePieceSubmit(
+      e,
+      data,
+      isNewPiece,
+      audioFile,
+      scoreFile,
+      path
+    );
 
     toast.promise(promise, {
       pending: "Loading...",
       success: {
         render({ data }) {
+          isNewPiece &&
+            setTimeout(() => {
+              navigate(0);
+            }, 1000);
           return data.success;
         },
       },

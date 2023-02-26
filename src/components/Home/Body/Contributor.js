@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { convertToSlug } from "../../../utils/utils.js";
-import axios from "axios";
-import { authHeader } from "../../../utils/auth";
+import {
+  axiosInstance,
+  handleContributorSubmit,
+} from "../../../utils/utils.js";
 import { toast } from "react-toastify";
 import Button from "@mui/material/Button";
 import EditableTitle from "./EditableTitle";
@@ -36,51 +37,22 @@ export default function Contributor({ path = "" }) {
     });
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-
-    let config = {
-      headers: authHeader(),
-    };
-    config.headers["content-type"] = "multipart/form-data";
-
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("sortBy", data.sortBy);
-    formData.append("country", data.country);
-    formData.append("contact", data.contact || "");
-    formData.append("donate", data.donate || "");
-    formData.append("category", data.category);
-    formData.append("bio", data.bio || "");
-
-    const path =
-      isNewContributor && data.name ? convertToSlug(data.name) : data.path;
-    formData.append("path", path);
-    formData.append("type", data.type);
-    newPicture && formData.append("image", newPicture);
-
-    const endpoint = isNewContributor
-      ? "create-contributor"
-      : "update-contributor";
-
-    const promise = axios
-      .post(`${process.env.REACT_APP_API_URL}api/${endpoint}`, formData, config)
-      .then((response) => {
-        isNewContributor &&
-          setTimeout(() => {
-            navigate(`/contributors/${path}`);
-          }, 1000);
-        return response.data;
-      })
-      .catch((error) => {
-        console.error(error);
-        throw error;
-      });
+  const handleSubmit = async (e) => {
+    const promise = handleContributorSubmit(
+      e,
+      data,
+      newPicture,
+      isNewContributor
+    );
 
     toast.promise(promise, {
       pending: "Loading...",
       success: {
         render({ data }) {
+          isNewContributor &&
+            setTimeout(() => {
+              navigate(`/contributors/${path}`);
+            }, 1000);
           return data.success;
         },
       },
@@ -90,12 +62,12 @@ export default function Contributor({ path = "" }) {
         },
       },
     });
-  }
+  };
 
   useEffect(() => {
     !isNewContributor && // if is not a new contributor, fetch data
-      axios
-        .get(`${process.env.REACT_APP_API_URL}api/get-contributor/${path}`)
+      axiosInstance
+        .get(`/get-contributor/${path}`)
         .then((response) => {
           response.data.sortBy = response.data.sort; // this fixes error that makes compiler think sort is a function and can't be rendered
           setData(response.data);

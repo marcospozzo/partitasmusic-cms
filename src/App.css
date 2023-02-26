@@ -283,6 +283,11 @@ label {
   width: 100%;
 }
 
+.pieces-title {
+  align-self: center;
+  font-weight: lighter;
+}
+
 @media (max-width: 1000px) {
 
   #root {
