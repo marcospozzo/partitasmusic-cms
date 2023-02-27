@@ -91,3 +91,17 @@ export const handleContributorSubmit = (
     });
   return promise;
 };
+
+export async function login(username, password) {
+  try {
+    const response = await axiosInstance.post("/signin", {
+      username,
+      password,
+    });
+    if (response.data.accessToken) {
+      localStorage.setItem("jwt", JSON.stringify(response.data.accessToken));
+    }
+  } catch (error) {
+    throw error;
+  }
+}

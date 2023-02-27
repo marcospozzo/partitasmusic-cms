@@ -1,4 +1,4 @@
-import { login } from "../../utils/auth";
+import { login } from "../../utils/utils";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,7 +11,9 @@ export default function Login() {
     e.preventDefault();
     try {
       await login(credentials.username, credentials.password);
-      navigate("/");
+      setTimeout(() => {
+        navigate("/");
+      }, 100);
     } catch (error) {
       console.error(error);
       toast.error("Login failed. Try again...");

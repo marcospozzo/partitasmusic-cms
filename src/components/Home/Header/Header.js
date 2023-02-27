@@ -1,24 +1,24 @@
 import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../../../utils/auth";
+import { USERS, CONTRIBUTORS } from "../../../utils/constants";
 
 function CenterPanel() {
-  const [activeView, setActiveView] = useState("Contributors");
+  const [activeView, setActiveView] = useState(CONTRIBUTORS);
 
   return (
     <div className="center-panel">
       <button
-        className={activeView === "Contributors" ? "selected" : "unselected"}
-        onClick={() => setActiveView("Contributors")}
+        className={activeView === CONTRIBUTORS ? "selected" : "unselected"}
+        onClick={() => setActiveView(CONTRIBUTORS)}
       >
-        Contributors
+        {CONTRIBUTORS}
       </button>
       <button
-        className={activeView === "Users" ? "selected" : "unselected"}
-        onClick={() => setActiveView("Users")}
+        className={activeView === USERS ? "selected" : "unselected"}
+        onClick={() => setActiveView(USERS)}
       >
-        Users
+        {USERS}
       </button>
     </div>
   );
@@ -28,7 +28,7 @@ function RightPanel() {
   const navigate = useNavigate();
 
   async function handleClick() {
-    await logout();
+    localStorage.removeItem("jwt");
     navigate("/login");
   }
   return (

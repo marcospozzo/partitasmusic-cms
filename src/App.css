@@ -104,9 +104,11 @@ input {
 .contributors-list {
   display: flex;
   flex-direction: column;
-  align-content: center;
-  height: 100%; 
+  align-content: space-around;
+  height: 100%;
+  width: 80%;
   flex-wrap: wrap;
+  margin: 0 10em;
 }
 
 .contributor-card {
