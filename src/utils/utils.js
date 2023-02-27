@@ -57,6 +57,7 @@ export const handleContributorSubmit = (
   e,
   data,
   newPicture,
+  path,
   isNewContributor
 ) => {
   e.preventDefault();
@@ -69,9 +70,6 @@ export const handleContributorSubmit = (
   formData.append("donate", data.donate || "");
   formData.append("category", data.category);
   formData.append("bio", data.bio || "");
-
-  const path =
-    isNewContributor && data.name ? convertToSlug(data.name) : data.path;
   formData.append("path", path);
   formData.append("type", data.type);
   newPicture && formData.append("image", newPicture);

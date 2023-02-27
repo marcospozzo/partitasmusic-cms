@@ -24,7 +24,7 @@ export default function Contributors() {
   }, []);
 
   return (
-    <div className="body">
+    <div>
       <div className="search-bar">
         <SearchBox filterText={filterText} onFilterTextChange={setFilterText} />
         <PlusButton />

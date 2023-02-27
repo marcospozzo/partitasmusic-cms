@@ -5,18 +5,29 @@ import { USERS, CONTRIBUTORS } from "../../../utils/constants";
 
 function CenterPanel() {
   const [activeView, setActiveView] = useState(CONTRIBUTORS);
+  const navigate = useNavigate();
+
+  function handleClickContributors() {
+    setActiveView(CONTRIBUTORS);
+    navigate("/");
+  }
+
+  function handleClickUsers() {
+    setActiveView(USERS);
+    navigate("/users");
+  }
 
   return (
     <div className="center-panel">
       <button
         className={activeView === CONTRIBUTORS ? "selected" : "unselected"}
-        onClick={() => setActiveView(CONTRIBUTORS)}
+        onClick={handleClickContributors}
       >
         {CONTRIBUTORS}
       </button>
       <button
         className={activeView === USERS ? "selected" : "unselected"}
-        onClick={() => setActiveView(USERS)}
+        onClick={handleClickUsers}
       >
         {USERS}
       </button>

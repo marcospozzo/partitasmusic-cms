@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import {
   axiosInstance,
   handleContributorSubmit,
+  convertToSlug,
 } from "../../../utils/utils.js";
 import { toast } from "react-toastify";
 import Button from "@mui/material/Button";
@@ -38,10 +39,13 @@ export default function Contributor({ path = "" }) {
   }
 
   const handleSubmit = async (e) => {
+    const path =
+      isNewContributor && data.name ? convertToSlug(data.name) : data.path;
     const promise = handleContributorSubmit(
       e,
       data,
       newPicture,
+      path,
       isNewContributor
     );
 
