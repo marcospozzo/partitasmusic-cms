@@ -9,7 +9,7 @@ export default function Pieces({ path }) {
 
   useEffect(() => {
     axiosInstance
-      .get(`/get-contributions/${path}`)
+      .get(`/get-pieces/${path}`)
       .then((response) => {
         setData(response.data);
       })

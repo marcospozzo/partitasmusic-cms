@@ -37,9 +37,7 @@ export const handlePieceSubmit = (
   audioFile && formData.append("audio", audioFile);
   scoreFile && formData.append("score", scoreFile);
 
-  const endpoint = isNewPiece
-    ? `/create-contribution/${path}`
-    : "/update-contribution";
+  const endpoint = isNewPiece ? `/create-piece/${path}` : "/update-piece";
 
   const promise = axiosInstance
     .post(endpoint, formData)
