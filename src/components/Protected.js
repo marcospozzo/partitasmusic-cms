@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { axiosInstance } from "../utils/utils";
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 const Protected = ({ children }) => {
@@ -8,7 +8,14 @@ const Protected = ({ children }) => {
   useEffect(() => {
     (async function () {
       try {
-        const response = await axiosInstance.get("/verifyToken");
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}api/verifyToken`,
+          {
+            headers: {
+              "x-access-token": JSON.parse(localStorage.getItem("jwt")),
+            },
+          }
+        );
         setTokenIsValid(response.status === 200);
       } catch (error) {
         setTokenIsValid(false);

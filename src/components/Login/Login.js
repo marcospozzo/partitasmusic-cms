@@ -11,9 +11,7 @@ export default function Login() {
     e.preventDefault();
     try {
       await login(credentials.username, credentials.password);
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
+      navigate("/");
     } catch (error) {
       console.error(error);
       toast.error("Login failed. Try again...");
