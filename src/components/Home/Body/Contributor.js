@@ -15,6 +15,37 @@ export default function Contributor({ path = "" }) {
   const [newPicture, setNewPicture] = useState(null);
   const isNewContributor = path === "";
 
+  const handleDownload = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}api/generate-contributors-image/${path}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to generate image");
+      }
+
+      const blob = await response.blob();
+
+      // Create a link element
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = `${path}.png`;
+
+      // Append the link to the body
+      document.body.appendChild(link);
+
+      // Trigger the click event on the link
+      link.click();
+
+      // Remove the link from the DOM
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading image:", error);
+    }
+  };
+
   function handleImageChange(e) {
     const newPicture = e.target.files[0];
     if (newPicture) {
@@ -92,14 +123,19 @@ export default function Contributor({ path = "" }) {
     >
       <form className="contributor-form" onSubmit={handleSubmit}>
         {!isNewContributor && (
-          <a
-            href={`${process.env.REACT_APP_API_URL}music-catalog/${path}`}
-            className="links unselected"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Open in Partitas Music
-          </a>
+          <>
+            <a
+              href={`${process.env.REACT_APP_API_URL}music-catalog/${path}`}
+              className="links unselected"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open in Partitas Music
+            </a>
+            <button className="links unselected" onClick={handleDownload}>
+              Download profile image
+            </button>
+          </>
         )}
         <img
           id="profile-picture"
