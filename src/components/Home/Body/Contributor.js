@@ -18,30 +18,41 @@ export default function Contributor({ path = "" }) {
   const handleDownload = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}api/generate-contributors-image/${path}`
-      );
+      const promise = new Promise(async (resolve, reject) => {
+        try {
+          const response = await fetch(
+            `${process.env.REACT_APP_API_URL}api/generate-contributors-image/${path}`
+          );
 
-      if (!response.ok) {
-        throw new Error("Failed to generate image");
-      }
+          const blob = await response.blob();
 
-      const blob = await response.blob();
+          // Create a link element
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.download = `${path}.png`;
 
-      // Create a link element
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.download = `${path}.png`;
+          // Append the link to the body
+          document.body.appendChild(link);
 
-      // Append the link to the body
-      document.body.appendChild(link);
+          // Trigger the click event on the link
+          link.click();
 
-      // Trigger the click event on the link
-      link.click();
+          // Remove the link from the DOM
+          document.body.removeChild(link);
 
-      // Remove the link from the DOM
-      document.body.removeChild(link);
+          resolve(); // Resolve the promise on success
+        } catch (error) {
+          reject(error); // Reject the promise on error
+        }
+      });
+
+      toast.promise(promise, {
+        pending: "Downloading...",
+        success: "Image downloaded successfully",
+        error: "Error downloading image",
+      });
     } catch (error) {
+      toast.error("Error downloading image");
       console.error("Error downloading image:", error);
     }
   };
